@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style media="screen">
+        a:link {
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        #showFormButton {
+            padding: 10px 20px;
+            background-color: #22242A;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #showFormButton:hover {
+            background-color: #22242A;
+        }
+
+        form {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            width: 300px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #22242A;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button {
+            color: red;
+        }
+
+        .add-button-container {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .covered-diseases-button {
+            background-color: #2ECC71;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .covered-diseases-button:hover {
+            background-color: #27AE60;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+
+        <div class="add-button-container">
+            <button id="showFormButton">Add Package</button>
+        </div>
+
+        <form th:id="myForm" th:action="@{/addpackage}" th:object="${insurancePackage}" method="post">
+            <label for="packageTitle">Package Title:</label>
+            <input type="text" id="packageTitle" th:field="*{inspTitle}" required /><br><br>
+
+            <label for="packageDescription">Description:</label>
+            <input type="text" id="packageDescription" th:field="*{inspDesc}" required /><br><br>
+
+            <label for="packageStatus">Status:</label>
+            <input type="text" id="packageStatus" th:field="*{inspStatus}" required /><br><br>
+
+            <label for="packageRangeStart">Range Start:</label>
+            <input type="number" id="packageRangeStart" th:field="*{inspRangeStart}" required /><br><br>
+
+            <label for="packageRangeEnd">Range End:</label>
+            <input type="number" id="packageRangeEnd" th:field="*{inspRangeEnd}" required /><br><br>
+
+            <label for="packageAgeLimitStart">Age Limit Start:</label>
+            <input type="number" id="packageAgeLimitStart" th:field="*{inspAgeLimitStart}" required /><br><br>
+
+            <label for="packageAgeLimitEnd">Age Limit End:</label>
+            <input type="number" id="packageAgeLimitEnd" th:field="*{inspAgeLimitEnd}" required /><br><br>
+
+            <input type="submit" value="Submit" />
+        </form>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h6 class="panel-title">List of Insurance Packages</h6>
+            </div>
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Range Start</th>
+                        <th>Range End</th>
+                        <th>Age Limit Start</th>
+                        <th>Age Limit End</th>
+                        <th>Action</th>
+                        <th>Covered Diseases</th> <!-- Added Covered Diseases column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Replace this section with Thymeleaf iteration -->
+                    <tr th:each="package : ${packages}">
+                        <td th:text="${package.inspId}"></td>
+                        <td th:text="${package.inspTitle}"></td>
+                        <td th:text="${package.inspDesc}"></td>
+                        <td th:text="${package.inspStatus}"></td>
+                        <td th:text="${package.inspRangeStart}"></td>
+                        <td th:text="${package.inspRangeEnd}"></td>
+                        <td th:text="${package.inspAgeLimitStart}"></td>
+                        <td th:text="${package.inspAgeLimitEnd}"></td>
+                        <td>
+                            <!-- Add a delete button with a data attribute for packageId -->
+                            <span class="glyphicon glyphicon-trash delete-button"
+                                th:attr="data-package-id=${package.inspId}"></span>
+                        </td>
+                        <td>
+                            <!-- Add a button for Covered Diseases with a data attribute for packageId -->
+                            <button class="covered-diseases-button"
+                                    th:attr="onclick='openCoveredDiseases(\'' + ${package.inspId} + '\')'">Covered Diseases</button>
+                        </td>
+                    </tr>
+                    <!-- End of Thymeleaf iteration -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code for handling button clicks and form display
+        $(document).ready(function() {
+            $('.delete-button').on('click', function() {
+                var packageId = $(this).data('package-id');
+                var button = this;
+                console.log(packageId);
+                $.ajax({
+                    type: 'POST',
+                    url: '/deletePackage', // Change this to your controller endpoint
+                    data: { packageId: packageId },
+                    success: function(response) {
+                        console.log("yes");
+                        $(button).closest('tr').remove();
+                        // Handle the success response as needed
+                        // For example, you can remove the deleted row from the table.
+                        alert(response);
+                        // Remove the row from the table
+                    },
+                    error: function() {
+                        alert('Error deleting package');
+                    }
+                });
+            });
+
+            document.getElementById("showFormButton").addEventListener("click", function() {
+                var form = document.getElementById("myForm");
+                if (form.style.display === "none" || form.style.display === "") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            });
+
+            setTimeout(function() {
+                var messageContainer = document.getElementById("messageContainer");
+                if (messageContainer) {
+                    messageContainer.style.display = "none";
+                }
+            }, 5000);
+        });
+
+        // Function to handle opening the Covered Diseases page
+        function openCoveredDiseases(packageId) {
+            // Replace the URL with the correct path to your Covered Diseases page
+            window.location.href = "/covered-diseases?packageId=" + packageId;
+        }
+    </script>
+</body>
+
+</html>

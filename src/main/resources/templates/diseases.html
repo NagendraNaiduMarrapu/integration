@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Disease Names</title>
+</head>
+<body>
+    <h1>List of Disease Names</h1>
+       <TABLE BORDER="1">
+      <TR>
+      <TH>disease id</TH>
+      <TH>Name</TH>
+      <TH>disease description</TH>
+      <TH>disease icd code</TH>
+      <th>disease status</th>
+      </TR>
+      
+      <tr th:each="dsc : ${diseaseslist}">
+    <td class="align-middle" th:text="${dsc.discId}">[${dsc.discId}]</td>
+    <td class="align-middle" th:text="${dsc.discName}">[${dsc.discName}]</td>
+    <td class="align-middle" th:text="${dsc.discIcdCode}">[${dsc.discIcdCode}]</td>
+    <td class="align-middle" th:text="${dsc.discDesc}">[${dsc.discDesc}]</td>
+    <td class="align-middle" th:text="${dsc.discStatus}">[${dsc.discStatus}]</td>
+</tr>
+     </TABLE>
+     	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+     <script th:inline="javascript">
+        $(document).ready(function() {
+            // Retrieve the packageId from the query string
+            var queryString = /*[[${#httpServletRequest.getQueryString()}]]*/ "";
+            var searchParams = new URLSearchParams(queryString);
+            var packageId = searchParams.get("packageId");
+
+            // Make an AJAX call to fetch disease data for the specified packageId
+            $.ajax({
+				type: 'GET',
+                url: 'showDiseases', 
+                
+                data:{
+					packageId:packageId
+				},
+                success: function(data) {
+                    // Handle the data and update the table as needed
+                    console.log("Disease data received:", data);
+                    // You can use data to update the disease table
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching disease data:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

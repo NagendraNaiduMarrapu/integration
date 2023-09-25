@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+
+    <!-- Add jQuery from a CDN (required by Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add custom CSS for table -->
+    <style>
+        .custom-table {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .custom-table th, .custom-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-table th {
+            background-color: #f2f2f2;
+        }
+
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        .custom-btn-primary {
+            background-color: #22242A;
+            color: #fff;
+            border: none;
+        }
+
+        .custom-btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Customer List</h1>
+        <table class="table table-bordered custom-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iterate over the list of customers and display each row -->
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.custId}"></td>
+                    <td th:text="${customer.custFname}"></td>
+                    <td th:text="${customer.custGender}"></td>
+                    <td th:text="${customer.custStatus}"></td>
+                    <td>
+                        <button class="btn custom-btn-primary" onclick="showDetails(this)">View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function showDetails(buttonElement) {
+            var parentRow = buttonElement.parentNode.parentNode;
+            var Id = parentRow.cells[0].textContent;
+
+            window.location.href = "/getCustomerDetails?IdVal=" + Id;
+        }
+    </script>
+</body>
+
+</html>

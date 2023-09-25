@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details</title>
+    
+    <!-- Add Bootstrap CSS from a CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Customer Details</h1>
+        <table class="table table-bordered" border="1">
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Customer ID</td>
+                <td th:text="${customer.custId}"></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td th:text="${customer.custFname}"></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td th:text="${customer.custLname}"></td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td th:text="${customer.custDob}"></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td th:text="${customer.custAddress}"></td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td th:text="${customer.custGender}"></td>
+            </tr>
+            <tr>
+                <td>Creation Date</td>
+                <td th:text="${customer.custCdate}"></td>
+            </tr>
+            <tr>
+                <td>Aadhaar</td>
+                <td th:text="${customer.custAadhar}"></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${customer.custStatus}"></td>
+            </tr>
+            <tr>
+                <td>Last Updated Date</td>
+                <td th:text="${customer.custLuudate}"></td>
+            </tr>
+            <tr>
+                <td>Last Updated User</td>
+                <td th:text="${customer.custLuuser}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
